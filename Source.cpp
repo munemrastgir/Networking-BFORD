@@ -61,7 +61,6 @@ info arr[50];
 
 
 void recurs(adjList*x, char source){
-	int min = 10000;
 	int r = find(arr, 50, source);
 	int t = 0;
 	while (x[t].head->getName() != source)	//finds current node on the adj list
@@ -83,6 +82,7 @@ void recurs(adjList*x, char source){
 		tmp = tmp->getNext();
 	}
 }
+
 void bFord(adjList*x, int size, char source) {
 	int i = 0;
 	while (arr[i].getName() != source && i < size)	//finds source node and marks it was visited
@@ -97,28 +97,10 @@ void bFord(adjList*x, int size, char source) {
 	for (int j = 0; j < size; j++)		//loops n node times
 	{
 		int min = 10000;
-		int t = 0;
-		while (x[t].head->getName() != source)	//finds current node on the adj list
-			t++;
 
-		adjListNode* tmp = x[t].head;
-		tmp = tmp->getNext();
+		recurs(x, source);	//recurs function goes to current node, updates it's neighbors if smaller, and recurses through the intermediate nodes
 
-		while (tmp != NULL)		//traverses the nodes neighbors and for each neighbor checks if it's smaller
-		{
-			int h = find(arr, 50, tmp->getName());
-			if (tmp->getWeight() + arr[pos].getDist() < arr[h].getDist())	//update distance and parent name and intermediate nodes
-			{
-				arr[h].setDist(tmp->getWeight() + arr[pos].getDist());
-				arr[h].setParent(x[t].head->getName());
-				if(arr[h].getVisit())
-					recurs(x, tmp->getName());
-			}
-
-			tmp = tmp->getNext();
-		}
-
-		//Finds next min
+		//Finds next min for next node
 		for (int u = 0; u < size; u++)
 		{
 			if (arr[u].getVisit() == false && arr[u].getDist() < min)
@@ -127,6 +109,8 @@ void bFord(adjList*x, int size, char source) {
 				pos = u;
 			}
 		}
+
+		//prints the known smallest distances after updating a node
 		cout << source << ": ";
 		for (int p = 0; p < size; p++)
 			cout << arr[p].getDist() << "\t";
