@@ -58,73 +58,73 @@ int find(info* tarr, size_t size, char nodeName);
 
 int main() {
 	adjList test[ADJ_SIZE];
-    info arr[INFO_SIZE];
-    populate(test, arr);
+	info arr[INFO_SIZE];
+	populate(test, arr);
 	bFord(test, arr, ADJ_SIZE, INFO_SIZE, 'S');
 }
 
 
 void populate(adjList* test, info* arr){
-    adjListNode
-        *S4 = new adjListNode('F', 5),
-        *S3 = new adjListNode('C', 6),
-        *S2 = new adjListNode('E', 6),
-        *S1 = new adjListNode('A', 7),
-        *S = new adjListNode('S', MAX_INT);
+	adjListNode
+		*S4 = new adjListNode('F', 5),
+		*S3 = new adjListNode('C', 6),
+		*S2 = new adjListNode('E', 6),
+		*S1 = new adjListNode('A', 7),
+		*S = new adjListNode('S', MAX_INT);
 	S3->setNext(S4);
 	S2->setNext(S3);
 	S1->setNext(S2);
 	S->setNext(S1);
 
 	adjListNode
-        *A2 = new adjListNode('C', -2),
-        *A1 = new adjListNode('B', 4),
-        *A = new adjListNode('A', MAX_INT);
+		*A2 = new adjListNode('C', -2),
+		*A1 = new adjListNode('B', 4),
+		*A = new adjListNode('A', MAX_INT);
 	A1->setNext(A2);
 	A->setNext(A1);
 
 	adjListNode
-        *B2 = new adjListNode('G', -2),
-        *B1 = new adjListNode('H', -4),
-        *B = new adjListNode('B', MAX_INT);
+		*B2 = new adjListNode('G', -2),
+		*B1 = new adjListNode('H', -4),
+		*B = new adjListNode('B', MAX_INT);
 	B1->setNext(B2);
 	B->setNext(B1);
 
 	adjListNode
-        *C2 = new adjListNode('F', 1),
-        *C1 = new adjListNode('D', 2),
-        *C = new adjListNode('C', MAX_INT);
+		*C2 = new adjListNode('F', 1),
+		*C1 = new adjListNode('D', 2),
+		*C = new adjListNode('C', MAX_INT);
 	C1->setNext(C2);
 	C->setNext(C1);
 
 	adjListNode
-        *D = new adjListNode('D', MAX_INT);
+		*D = new adjListNode('D', MAX_INT);
 
 	adjListNode
-        *E2 = new adjListNode('F', -2),
-        *E1 = new adjListNode('H', 3),
-        *E = new adjListNode('E', MAX_INT);
+		*E2 = new adjListNode('F', -2),
+		*E1 = new adjListNode('H', 3),
+		*E = new adjListNode('E', MAX_INT);
 	E1->setNext(E2);
 	E->setNext(E1);
 
 	adjListNode
-        *F1 = new adjListNode('D', 3),
-        *F = new adjListNode('F', MAX_INT);
+		*F1 = new adjListNode('D', 3),
+		*F = new adjListNode('F', MAX_INT);
 	F->setNext(F1);
 
 	adjListNode
-        *G1 = new adjListNode('I', -1),
-        *G = new adjListNode('G', MAX_INT);
+		*G1 = new adjListNode('I', -1),
+		*G = new adjListNode('G', MAX_INT);
 	G->setNext(G1);
 
 	adjListNode
-        *H1 = new adjListNode('G', 1),
-        *H = new adjListNode('H', MAX_INT);
+		*H1 = new adjListNode('G', 1),
+		*H = new adjListNode('H', MAX_INT);
 	H->setNext(H1);
 
 	adjListNode
-        *I1 = new adjListNode('H', 1),
-        *I = new adjListNode('I', MAX_INT);
+		*I1 = new adjListNode('H', 1),
+		*I = new adjListNode('I', MAX_INT);
 	I->setNext(I1);
 
 	test[0].head = S;
