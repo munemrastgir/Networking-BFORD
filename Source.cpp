@@ -1,283 +1,208 @@
 #include <iostream>
 using namespace std;
 
-struct info {
-	char name;
-	bool visited = false;
-	int distance = 10000;
-	char parent = 'x';
+class info {
+public:
+	//Default constructor
+	info():visited_{false}, distance_{10000}, parent_{'x'}{}
+	//Regular constructor
+	info(char name, bool visited, int distance, char parent):
+    name_{name}, visited_{visited}, distance_{distance}, parent_{parent}{}
+	//Getters
+	char getName(){return name_;}
+	bool getVisit(){return visited_;}
+	int getDist(){return distance_;}
+	char getParent(){return parent_;}
+	//Setters
+	void setName(char name){this->name_ = name;}
+	void setVisit(bool visited){this->visited_ = visited;}
+	void setDist(int distance){this->distance_ = distance;}
+	void setParent(char parent){this->parent_ = parent;}
+private:
+	char name_;
+	bool visited_;
+	int distance_;
+	char parent_;
 };
 
-info arr[50];
-
-struct adjListNode {
-	//int position;
-	int weight;
-	char name;
-	adjListNode* next;
+class adjListNode {
+public:
+	//Constructor
+	adjListNode(char name, int weight):weight_{weight}, name_{name}, next_{nullptr}{}
+	//Getters
+	int getWeight(){return weight_;}
+	char getName(){return name_;}
+	adjListNode* getNext(){return next_;}
+	//Setters
+	void setName(char name){this->name_ = name;}
+	void setWeight(int weight){this->weight_ = weight;}
+	void setNext(adjListNode& next){this->next_ = &next;}
+private:
+	int weight_;
+	char name_;
+	adjListNode* next_;
 };
 
 struct adjList {
 	adjListNode* head;
 };
 
-
-int find(info tarr[], char nodeName) {
-	int h = 0;
-	while (tarr[h].name != nodeName)
+int find(info tarr[], size_t size, char nodeName) {
+	size_t h = 0;
+	while (tarr[h].getName() != nodeName)
 		h++;
-	return h;
+    if (tarr[h].getName() == nodeName)
+        return h;
+    else
+        return -1;
 }
 
+info arr[50];
 
 
-void recurs(adjList*x, char source)
-{
+void recurs(adjList*x, char source){
 	int min = 10000;
-	int r = find(arr, source);
+	int r = find(arr, 50, source);
 	int t = 0;
-	while (x[t].head->name != source)	//finds current node on the adj list
+	while (x[t].head->getName() != source)	//finds current node on the adj list
 		t++;
 
 	adjListNode* tmp = x[t].head;
-	tmp = tmp->next;
+	tmp = tmp->getNext();
 
 	while (tmp != NULL)		//traverses the nodes neighbors and for each neighbor checks if it's smaller
 	{
-		int h = find(arr, tmp->name);
-		if (tmp->weight + arr[r].distance < arr[h].distance)	//update distance and parent name and intermediate nodes
+		int h = find(arr, 50, tmp->getName());
+		if (tmp->getWeight() + arr[r].getDist() < arr[h].getDist())	//update distance and parent name and intermediate nodes
 		{
-			arr[h].distance = tmp->weight + arr[r].distance;
-			arr[h].parent = x[t].head->name;
-			if (arr[h].visited)
-				recurs(x, tmp->name);
+			arr[h].setDist(tmp->getWeight() + arr[r].getDist());
+			arr[h].setParent(x[t].head->getName());
+			if (arr[h].getVisit())
+				recurs(x, tmp->getName());
 		}
-		tmp = tmp->next;
+		tmp = tmp->getNext();
 	}
 }
-
 void bFord(adjList*x, int size, char source) {
 	int i = 0;
-	
-	
-	while (arr[i].name != source && i < size)	//finds source node and marks it was visited
+	while (arr[i].getName() != source && i < size)	//finds source node and marks it was visited
 		i++;
 	int pos = i;
-	arr[i].distance = 0;
-	arr[i].visited = true;
+	arr[i].setDist(0);
+	arr[i].setVisit(true);
 	cout << source << ": ";
 	for (int p = 0; p < size; p++)
-		cout << arr[p].distance << " ";
+		cout << arr[p].getDist() << "\t";
 	cout << endl;
 	for (int j = 0; j < size; j++)		//loops n node times
 	{
 		int min = 10000;
 		int t = 0;
-		while (x[t].head->name != source)	//finds current node on the adj list
+		while (x[t].head->getName() != source)	//finds current node on the adj list
 			t++;
 
 		adjListNode* tmp = x[t].head;
-		tmp = tmp->next;
-		
+		tmp = tmp->getNext();
+
 		while (tmp != NULL)		//traverses the nodes neighbors and for each neighbor checks if it's smaller
 		{
-			int h = find(arr, tmp->name);
-			if (tmp->weight + arr[pos].distance  < arr[h].distance)	//update distance and parent name and intermediate nodes
-			{	
-				arr[h].distance = tmp->weight + arr[pos].distance;
-				arr[h].parent = x[t].head->name;
-				if(arr[h].visited)
-					recurs(x, tmp->name);
+			int h = find(arr, 50, tmp->getName());
+			if (tmp->getWeight() + arr[pos].getDist() < arr[h].getDist())	//update distance and parent name and intermediate nodes
+			{
+				arr[h].setDist(tmp->getWeight() + arr[pos].getDist());
+				arr[h].setParent(x[t].head->getName());
+				if(arr[h].getVisit())
+					recurs(x, tmp->getName());
 			}
-			
-			tmp = tmp->next;
+
+			tmp = tmp->getNext();
 		}
 
 		//Finds next min
 		for (int u = 0; u < size; u++)
 		{
-			if (arr[u].visited == false && arr[u].distance < min)
+			if (arr[u].getVisit() == false && arr[u].getDist() < min)
 			{
-				min = arr[u].distance;
+				min = arr[u].getDist();
 				pos = u;
 			}
 		}
 		cout << source << ": ";
 		for (int p = 0; p < size; p++)
-			cout << arr[p].distance << " ";
-		
+			cout << arr[p].getDist() << "\t";
+
 		cout << endl;
-		source = arr[pos].name;
-		arr[pos].visited = true;
+		source = arr[pos].getName();
+		arr[pos].setVisit(true);
 		//cout << arr[pos].name << " " <<arr[pos].distance <<endl;
 	}
-	
+
 }
 
 int main() {
 	adjList* test;
 
-	/////////////////////////////////////
-	adjListNode* S4 = new adjListNode;
-	S4->name = 'F';
-	S4->weight = 5;
-	S4->next = NULL;
+	adjListNode S4('F', 5), S3('C', 6), S2('E', 6), S1('A', 7), S('S', 10000);
+    S3.setNext(S4);
+    S2.setNext(S3);
+    S1.setNext(S2);
+    S.setNext(S1);
 
+	adjListNode A2('C', -2), A1('B', 4), A('A', 10000);
+    A1.setNext(A2);
+    A.setNext(A1);
 
-	adjListNode* S3 = new adjListNode;
-	S3->name = 'C';
-	S3->weight = 6;
-	S3->next = S4;
+    adjListNode B2('G', -2), B1('H', -4), B('B', 10000);
+    B1.setNext(B2);
+    B.setNext(B1);
 
+    adjListNode C2('F', 1), C1('D', 2), C('C', 10000);
+    C1.setNext(C2);
+    C.setNext(C1);
 
-	adjListNode* S2 = new adjListNode;
-	S2->name = 'E';
-	S2->weight = 6;
-	S2->next = S3;
+    adjListNode D('D', 10000);
 
-	adjListNode* S1 = new adjListNode;
-	S1->name = 'A';
-	S1->weight = 7;
-	S1->next = S2;
+    adjListNode E2('F', -2), E1('H', 3), E('E', 10000);
+    E1.setNext(E2);
+    E.setNext(E1);
 
-	adjListNode* S = new adjListNode;
-	S->name = 'S';
-	S->next = S1;
-	/////////////////////////////////////////////////
+    adjListNode F1('D', 3), F('F', 10000);
+    F.setNext(F1);
 
+    adjListNode G1('I', -1), G('G', 10000);
+    G.setNext(G1);
 
-	adjListNode* A2 = new adjListNode;
-	A2->name = 'C';
-	A2->weight = -2;
-	A2->next = NULL;
+    adjListNode H1('G', 1), H('H', 10000);
+    H.setNext(H1);
 
-	adjListNode* A1 = new adjListNode;
-	A1->name = 'B';
-	A1->weight = 4;
-	A1->next = A2;
-
-	adjListNode* A = new adjListNode;
-	A->name = 'A';
-	A->next = A1;
-	/////////////////////////////////
-
-	adjListNode* B2 = new adjListNode;
-	B2->name = 'G';
-	B2->weight = -2;
-	B2->next = NULL;
-
-	adjListNode* B1 = new adjListNode;
-	B1->name = 'H';
-	B1->weight = -4;
-	B1->next = B2;
-
-	adjListNode* B = new adjListNode;
-	B->name = 'B';
-	B->next = B1;
-
-	///////////////////////////////////////////
-
-	adjListNode* C2 = new adjListNode;
-	C2->name = 'F';
-	C2->weight = 1;
-	C2->next = NULL;
-
-	adjListNode* C1 = new adjListNode;
-	C1->name = 'D';
-	C1->weight = 2;
-	C1->next = C2;
-
-	adjListNode* C = new adjListNode;
-	C->name = 'C';
-	C->next = C1;
-	/////////////////////////////////////////////
-
-	adjListNode* D = new adjListNode;
-	D->name = 'D';
-	D->next = NULL;
-	/////////////////////////////
-
-	adjListNode* E2 = new adjListNode;
-	E2->name = 'F';
-	E2->weight = -2;
-	E2->next = NULL;
-
-	adjListNode* E1 = new adjListNode;
-	E1->name = 'H';
-	E1->weight = 3;
-	E1->next = E2;
-
-	adjListNode* E = new adjListNode;
-	E->name = 'E';
-	E->next = E1;
-	///////////////////////////////////////////////
-
-	adjListNode* F1 = new adjListNode;
-	F1->name = 'D';
-	F1->weight = 3;
-	F1->next = NULL;
-
-	adjListNode* F = new adjListNode;
-	F->name = 'F';
-	F->next = F1;
-
-	//////////////////////////////
-
-	adjListNode* G1 = new adjListNode;
-	G1->name = 'I';
-	G1->weight = -1;
-	G1->next = NULL;
-
-	adjListNode* G = new adjListNode;
-	G->name = 'G';
-	G->next = G1;
-
-	////////////////////////////////
-
-	adjListNode* H1 = new adjListNode;
-	H1->name = 'G';
-	H1->weight = 1;
-	H1->next = NULL;
-
-	adjListNode* H = new adjListNode;
-	H->name = 'H';
-	H->next = H1;
-	////////////////////////////////
-
-	adjListNode* I1 = new adjListNode;
-	I1->name = 'H';
-	I1->weight = 1;
-	I1->next = NULL;
-
-	adjListNode* I = new adjListNode;
-	I->name = 'I';
-	I->next = I1;
+    adjListNode I1('H', 1), I('I', 10000);
+    I.setNext(I1);
 
 	test = new adjList[10];
-	test[0].head = S;
-	test[1].head = A; 
-	test[2].head = B;
-	test[3].head = C;
-	test[4].head = D;
-	test[5].head = E;
-	test[6].head = F;
-	test[7].head = G;
-	test[8].head = H;
-	test[9].head = I;
+	test[0].head = &S;
+	test[1].head = &A;
+	test[2].head = &B;
+	test[3].head = &C;
+	test[4].head = &D;
+	test[5].head = &E;
+	test[6].head = &F;
+	test[7].head = &G;
+	test[8].head = &H;
+	test[9].head = &I;
 
-	arr[0].name = 'S';
-	arr[1].name = 'A';
-	arr[2].name = 'B';
-	arr[3].name = 'C';
-	arr[4].name = 'D';
-	arr[5].name = 'E';
-	arr[6].name = 'F';
-	arr[7].name = 'G';
-	arr[8].name = 'H';
-	arr[9].name = 'I';
+	arr[0].setName('S');
+	arr[1].setName('A');
+	arr[2].setName('B');
+	arr[3].setName('C');
+	arr[4].setName('D');
+	arr[5].setName('E');
+	arr[6].setName('F');
+	arr[7].setName('G');
+	arr[8].setName('H');
+	arr[9].setName('I');
 
 
-	cout << "CN S A B C D E F G H I" <<endl;
+	cout << "CN S\tA\tB\tC\tD\tE\tF\tG\tH\tI" <<endl;
 	bFord(test, 10, 'S');
-	
+
 }
