@@ -7,7 +7,7 @@ public:
 	info():visited_{false}, distance_{10000}, parent_{'x'}{}
 	//Regular constructor
 	info(char name, bool visited, int distance, char parent):
-    name_{name}, visited_{visited}, distance_{distance}, parent_{parent}{}
+	name_{name}, visited_{visited}, distance_{distance}, parent_{parent}{}
 	//Getters
 	char getName(){return name_;}
 	bool getVisit(){return visited_;}
@@ -51,10 +51,10 @@ int find(info tarr[], size_t size, char nodeName) {
 	size_t h = 0;
 	while (tarr[h].getName() != nodeName)
 		h++;
-    if (tarr[h].getName() == nodeName)
-        return h;
-    else
-        return -1;
+	if (tarr[h].getName() == nodeName)
+		return h;
+	else
+		return -1;
 }
 
 info arr[50];
@@ -143,40 +143,40 @@ int main() {
 	adjList* test;
 
 	adjListNode S4('F', 5), S3('C', 6), S2('E', 6), S1('A', 7), S('S', 10000);
-    S3.setNext(S4);
-    S2.setNext(S3);
-    S1.setNext(S2);
-    S.setNext(S1);
+	S3.setNext(S4);
+	S2.setNext(S3);
+	S1.setNext(S2);
+	S.setNext(S1);
 
 	adjListNode A2('C', -2), A1('B', 4), A('A', 10000);
-    A1.setNext(A2);
-    A.setNext(A1);
+	A1.setNext(A2);
+	A.setNext(A1);
 
-    adjListNode B2('G', -2), B1('H', -4), B('B', 10000);
-    B1.setNext(B2);
-    B.setNext(B1);
+	adjListNode B2('G', -2), B1('H', -4), B('B', 10000);
+	B1.setNext(B2);
+	B.setNext(B1);
+	
+	adjListNode C2('F', 1), C1('D', 2), C('C', 10000);
+	C1.setNext(C2);
+	C.setNext(C1);
+	
+	adjListNode D('D', 10000);
 
-    adjListNode C2('F', 1), C1('D', 2), C('C', 10000);
-    C1.setNext(C2);
-    C.setNext(C1);
+	adjListNode E2('F', -2), E1('H', 3), E('E', 10000);
+	E1.setNext(E2);
+	E.setNext(E1);
+	
+	adjListNode F1('D', 3), F('F', 10000);
+	F.setNext(F1);
 
-    adjListNode D('D', 10000);
+	adjListNode G1('I', -1), G('G', 10000);
+	G.setNext(G1);
 
-    adjListNode E2('F', -2), E1('H', 3), E('E', 10000);
-    E1.setNext(E2);
-    E.setNext(E1);
+	adjListNode H1('G', 1), H('H', 10000);
+	H.setNext(H1);
 
-    adjListNode F1('D', 3), F('F', 10000);
-    F.setNext(F1);
-
-    adjListNode G1('I', -1), G('G', 10000);
-    G.setNext(G1);
-
-    adjListNode H1('G', 1), H('H', 10000);
-    H.setNext(H1);
-
-    adjListNode I1('H', 1), I('I', 10000);
-    I.setNext(I1);
+	adjListNode I1('H', 1), I('I', 10000);
+	I.setNext(I1);
 
 	test = new adjList[10];
 	test[0].head = &S;
