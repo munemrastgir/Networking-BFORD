@@ -17,29 +17,27 @@ done
 NODE=$(echo "$NODE" | tr '[:upper:]' '[:lower:]')
 
 if [ $NODE == "bellman-ford" ]
-# mtr some.ip.address.yo --report --no-dns
+	$(mtr 127.0.0.1 --report --no-dns)
 fi 
 
 if [ $NODE == "lovelace" ]
-
-# mtr some.ip.address.yo --report --no-dns
-
+	$(mtr 10.10.4.1 --report --no-dns)
 fi
 
 if [ $NODE == "knuth" ]
-# mtr some.ip.address.yo --report --no-dns
+	$(mtr 10.10.8.2 --report --no-dns)
 fi 
 
 if [ $NODE == "hopper" ]
-# mtr some.ip.address.yo --report --no-dns
+	$(mtr 10.10.2.1 --report --no-dns)
 fi 
 
 if [ $NODE == "cerf" ]
-# mtr some.ip.address.yo --report --no-dns
+	$(mtr 10.10.1.1 --report --no-dns)
 fi 
 
 if [ $NODE == "baran" ]
-# mtr some.ip.address.yo --report --no-dns
+	$(mtr 10.10.5.2 --report --no-dns)
 fi 
 
 exit 0;
