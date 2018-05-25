@@ -1,49 +1,51 @@
 #include <iostream>
 #include <stdlib.h>
+#include <string>
+#include <fstream>
 
-#define ADJ_SIZE 10
-#define INFO_SIZE 10
+#define ADJ_SIZE 6
+#define INFO_SIZE 6
 #define MAX_INT 999999
 
 class info {
 public:
 	//Default constructor
-	info():visited_{false}, distance_{MAX_INT}, parent_{'x'}{}
+	info() :visited_{ false }, distance_{ MAX_INT }, parent_{ "x" } {}
 	//Regular constructor
-	info(char name, bool visited, int distance, char parent):
-	name_{name}, visited_{visited}, distance_{distance}, parent_{parent}{}
+	info(std::string name, bool visited, float distance, std::string parent) :
+		name_{ name }, visited_{ visited }, distance_{ distance }, parent_{ parent } {}
 	//Getters
-	char getName(){return name_;}
-	bool getVisit(){return visited_;}
-	int getDist(){return distance_;}
-	char getParent(){return parent_;}
+	std::string getName() { return name_; }
+	bool getVisit() { return visited_; }
+	float getDist() { return distance_; }
+	std::string getParent() { return parent_; }
 	//Setters
-	void setName(char name){this->name_ = name;}
-	void setVisit(bool visited){this->visited_ = visited;}
-	void setDist(int distance){this->distance_ = distance;}
-	void setParent(char parent){this->parent_ = parent;}
+	void setName(std::string name) { this->name_ = name; }
+	void setVisit(bool visited) { this->visited_ = visited; }
+	void setDist(float distance) { this->distance_ = distance; }
+	void setParent(std::string parent) { this->parent_ = parent; }
 private:
-	char name_;
+	std::string name_;
 	bool visited_;
-	int distance_;
-	char parent_;
+	float distance_;
+	std::string parent_;
 };
 
 class adjListNode {
 public:
 	//Constructor
-	adjListNode(char name, int weight):weight_{weight}, name_{name}, next_{nullptr}{}
+	adjListNode(std::string name, float weight) :weight_{ weight }, name_{ name }, next_{ nullptr } {}
 	//Getters
-	int getWeight(){return weight_;}
-	char getName(){return name_;}
-	adjListNode* getNext(){return next_;}
+	float getWeight() { return weight_; }
+	std::string getName() { return name_; }
+	adjListNode* getNext() { return next_; }
 	//Setters
-	void setName(char name){this->name_ = name;}
-	void setWeight(int weight){this->weight_ = weight;}
-	void setNext(adjListNode* next){this->next_ = next;}
+	void setName(std::string name) { this->name_ = name; }
+	void setWeight(int weight) { this->weight_ = weight; }
+	void setNext(adjListNode* next) { this->next_ = next; }
 private:
-	int weight_;
-	char name_;
+	float weight_;
+	std::string name_;
 	adjListNode* next_;
 };
 
@@ -51,107 +53,89 @@ struct adjList {
 	adjListNode* head;
 };
 
-void recurs(adjList*x, info* arr, int adjSize, int infoSize, char source);
-void bFord(adjList*x, info* arr, int adjSize, int infoSize, char source);
+void recurs(adjList*x, info* arr, int adjSize, int infoSize, std::string source);
+void bFord(adjList*x, info* arr, int adjSize, int infoSize, std::string source);
 void populate(adjList* test, info* arr);
-int find(info* tarr, size_t size, char nodeName);
+int find(info* tarr, size_t size, std::string nodeName);
 
 int main() {
 	adjList test[ADJ_SIZE];
 	info arr[INFO_SIZE];
 	populate(test, arr);
-	bFord(test, arr, ADJ_SIZE, INFO_SIZE, 'S');
+	bFord(test, arr, ADJ_SIZE, INFO_SIZE, "bellman-ford");
 }
 
 
-void populate(adjList* test, info* arr){
-	adjListNode
-		*S4 = new adjListNode('F', 5),
-		*S3 = new adjListNode('C', 6),
-		*S2 = new adjListNode('E', 6),
-		*S1 = new adjListNode('A', 7),
-		*S = new adjListNode('S', MAX_INT);
-	S3->setNext(S4);
-	S2->setNext(S3);
-	S1->setNext(S2);
-	S->setNext(S1);
+void populate(adjList* test, info* arr) {
 
 	adjListNode
-		*A2 = new adjListNode('C', -2),
-		*A1 = new adjListNode('B', 4),
-		*A = new adjListNode('A', MAX_INT);
-	A1->setNext(A2);
-	A->setNext(A1);
-
-	adjListNode
-		*B2 = new adjListNode('G', -2),
-		*B1 = new adjListNode('H', -4),
-		*B = new adjListNode('B', MAX_INT);
+		*B2 = new adjListNode("baran", 27.637),
+		*B1 = new adjListNode("lovelace", 141.632),
+		*B = new adjListNode("bellman-ford", MAX_INT);
 	B1->setNext(B2);
 	B->setNext(B1);
 
+
 	adjListNode
-		*C2 = new adjListNode('F', 1),
-		*C1 = new adjListNode('D', 2),
-		*C = new adjListNode('C', MAX_INT);
+		*L2 = new adjListNode("hopper", 142.675),
+		*L1 = new adjListNode("knuth", 125.654),
+		*L = new adjListNode("lovelace", MAX_INT);
+	L1->setNext(L2);
+	L->setNext(L1);
+
+
+	adjListNode
+		*K3 = new adjListNode("cerf", 196.626),
+		*K2 = new adjListNode("hopper", 105.593),
+		*K1 = new adjListNode("lovelace", 125.654),
+		*K = new adjListNode("knuth", MAX_INT);
+	K2->setNext(K3);
+	K1->setNext(K2);
+	K->setNext(K1);
+
+
+	adjListNode
+		*H3 = new adjListNode("lovelace", 142.675),
+		*H2 = new adjListNode("knuth", 105.593),
+		*H1 = new adjListNode("cerf", 127.624),
+		*H = new adjListNode("hopper", MAX_INT);
+	H2->setNext(H3);
+	H1->setNext(H2);
+	H->setNext(H1);
+
+
+	adjListNode
+		*C3 = new adjListNode("hopper", 127.624),
+		*C2 = new adjListNode("knuth", 196.626),
+		*C1 = new adjListNode("baran", 118.631),
+		*C = new adjListNode("cerf", MAX_INT);
+	C2->setNext(C3);
 	C1->setNext(C2);
 	C->setNext(C1);
 
-	adjListNode
-		*D = new adjListNode('D', MAX_INT);
 
 	adjListNode
-		*E2 = new adjListNode('F', -2),
-		*E1 = new adjListNode('H', 3),
-		*E = new adjListNode('E', MAX_INT);
-	E1->setNext(E2);
-	E->setNext(E1);
+		*X1 = new adjListNode("cerf", 118.631),
+		*X = new adjListNode("baran", MAX_INT);
+	X->setNext(X1);
+	
+	test[0].head = B;
+	test[1].head = L;
+	test[2].head = X;
+	test[3].head = K;
+	test[4].head = H;
+	test[5].head = C;
 
-	adjListNode
-		*F1 = new adjListNode('D', 3),
-		*F = new adjListNode('F', MAX_INT);
-	F->setNext(F1);
-
-	adjListNode
-		*G1 = new adjListNode('I', -1),
-		*G = new adjListNode('G', MAX_INT);
-	G->setNext(G1);
-
-	adjListNode
-		*H1 = new adjListNode('G', 1),
-		*H = new adjListNode('H', MAX_INT);
-	H->setNext(H1);
-
-	adjListNode
-		*I1 = new adjListNode('H', 1),
-		*I = new adjListNode('I', MAX_INT);
-	I->setNext(I1);
-
-	test[0].head = S;
-	test[1].head = A;
-	test[2].head = B;
-	test[3].head = C;
-	test[4].head = D;
-	test[5].head = E;
-	test[6].head = F;
-	test[7].head = G;
-	test[8].head = H;
-	test[9].head = I;
-
-	arr[0].setName('S');
-	arr[1].setName('A');
-	arr[2].setName('B');
-	arr[3].setName('C');
-	arr[4].setName('D');
-	arr[5].setName('E');
-	arr[6].setName('F');
-	arr[7].setName('G');
-	arr[8].setName('H');
-	arr[9].setName('I');
+	arr[0].setName("bellman-ford");
+	arr[1].setName("lovelace");
+	arr[2].setName("baran");
+	arr[3].setName("knuth");
+	arr[4].setName("hopper");
+	arr[5].setName("cerf");
 	return;
 }
 
-int find(info tarr[], size_t size, char nodeName) {
+int find(info tarr[], size_t size, std::string nodeName) {
 	size_t h = 0;
 	while (tarr[h].getName() != nodeName)
 		h++;
@@ -161,9 +145,9 @@ int find(info tarr[], size_t size, char nodeName) {
 		return -1;
 }
 
-void recurs(adjList*x, info* arr, int adjSize, int infoSize, char source){
+void recurs(adjList*x, info* arr, int adjSize, int infoSize, std::string source) {
 	int r = find(arr, 50, source);
-	if(r == -1)
+	if (r == -1)
 		exit(-1);
 	int t = 0;
 	while (x[t].head->getName() != source)	//finds current node on the adj list
@@ -186,8 +170,8 @@ void recurs(adjList*x, info* arr, int adjSize, int infoSize, char source){
 	}
 }
 
-void bFord(adjList*x, info* arr, int adjSize, int infoSize, char source) {
-	std::cout << "CN S\tA\tB\tC\tD\tE\tF\tG\tH\tI" << std::endl;
+void bFord(adjList*x, info* arr, int adjSize, int infoSize, std::string source) {
+	std::cout << "CN           B-Ford\t\tLovelace\tBaran\t\tKnuth\t\tHopper\t\tCerf" << std::endl;
 	int i = 0;
 	while (arr[i].getName() != source && i < adjSize)	//finds source node and marks it was visited
 		i++;
@@ -196,30 +180,39 @@ void bFord(adjList*x, info* arr, int adjSize, int infoSize, char source) {
 	arr[i].setVisit(true);
 	std::cout << source << ": ";
 	for (int p = 0; p < adjSize; p++)
-		std::cout << arr[p].getDist() << "\t";
+		std::cout << "\t"<< arr[p].getDist() << "\t";
 	std::cout << std::endl;
 	//loops n node times
-	for (int j = 0; j < adjSize; j++){
+	for (int j = 0; j < adjSize; j++) {
 		int min = MAX_INT;
 		//recurs function goes to current node, updates it's neighbors if smaller,
 		//and recurses through the intermediate nodes
 		recurs(x, arr, adjSize, infoSize, source);
 		//Finds next min for next node
-		for (int u = 0; u < adjSize; u++){
-			if (arr[u].getVisit() == false && arr[u].getDist() < min){
+		for (int u = 0; u < adjSize; u++) {
+			if (arr[u].getVisit() == false && arr[u].getDist() < min) {
 				min = arr[u].getDist();
 				pos = u;
 			}
 		}
 		//prints the known smallest distances after updating a node
+		if(source == "baran" || source == "knuth" || source == "cerf")
+			std::cout << source << ":     ";
+		else
 		std::cout << source << ": ";
 		for (int p = 0; p < adjSize; p++)
-			std::cout << arr[p].getDist() << "\t";
+			std::cout<<"\t" << arr[p].getDist() << "\t";
 
 		std::cout << std::endl;
 		source = arr[pos].getName();
 		arr[pos].setVisit(true);
 		//cout << arr[pos].name << " " <<arr[pos].distance <<endl;
 	}
+	std::ofstream filer;
+	filer.open("temp.txt");
+	for (int k = 0; k < INFO_SIZE; k++)
+		filer << arr[k].getName() << " " <<arr[k].getParent() << " " << arr[k].getDist() << std::endl;
+
+	filer.close();
 
 }
