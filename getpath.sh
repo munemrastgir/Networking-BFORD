@@ -16,28 +16,34 @@ done
 
 NODE=$(echo "$NODE" | tr '[:upper:]' '[:lower:]')
 
-if [ $NODE == "bellman-ford" ]
+if [ "$NODE" == "bellman-ford" ];
+then
 	$(mtr 127.0.0.1 --report --no-dns)
-fi 
+fi
 
-if [ $NODE == "lovelace" ]
+if [ "$NODE" == "lovelace" ];
+then
 	$(mtr 10.10.4.1 --report --no-dns)
 fi
 
-if [ $NODE == "knuth" ]
+if [ "$NODE" == "knuth" ];
+then
 	$(mtr 10.10.8.2 --report --no-dns)
-fi 
+fi
 
-if [ $NODE == "hopper" ]
+if [ "$NODE" == "hopper" ];
+then
 	$(mtr 10.10.2.1 --report --no-dns)
-fi 
+fi
 
-if [ $NODE == "cerf" ]
+if [ "$NODE" == "cerf" ];
+then
 	$(mtr 10.10.1.1 --report --no-dns)
-fi 
+fi
 
-if [ $NODE == "baran" ]
+if [ "$NODE" == "baran" ];
+then
 	$(mtr 10.10.5.2 --report --no-dns)
-fi 
+fi
 
-exit 0;
+exit 0
