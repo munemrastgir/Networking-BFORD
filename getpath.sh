@@ -2,17 +2,8 @@
 
 NODE="lovelace"
 
-while [ "$#" -gt 0 ] ; do
-	case $1 in
-		-n)
-			shift
-			NODE="$1"
-			;;
-		*)
-			shift
-			;;
-	esac
-done
+echo "Enter a destination node "
+read -p "(lovelace, knuth, hopper, cerf, baran): " NODE
 
 NODE=$(echo "$NODE" | tr '[:upper:]' '[:lower:]')
 
