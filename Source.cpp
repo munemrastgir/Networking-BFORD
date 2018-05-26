@@ -55,39 +55,68 @@ struct adjList {
 
 void recurs(adjList*x, info* arr, int adjSize, int infoSize, std::string source);
 void bFord(adjList*x, info* arr, int adjSize, int infoSize, std::string source);
-void populate(adjList* test, info* arr);
+void populate(adjList* test, info* arr, double a,double b,double c,double d,double e, double f, double g, double h);
 int find(info* tarr, size_t size, std::string nodeName);
 
 int main() {
 	adjList test[ADJ_SIZE];
 	info arr[INFO_SIZE];
-	populate(test, arr);
+	int choice;
+	double a = 27.637, b = 141.632, c = 142.675, d = 125.654, e = 196.626, f = 105.593, g = 127.624, h = 118.631;
+	std::cout << "Press 1 to run the code on our Values, or press 2 enter your own values" << std::endl;
+	while (std::cin >> choice) {
+		if (choice == 1)
+		{
+			populate(test, arr,a,b,c,d,e,f,g,h);
+			break;
+		}
+		else if (choice == 2)
+		{
+			std::cout << "Enter distance from bellman-ford to baran" << std::endl;
+			std::cin >> a;
+			std::cout << "Enter distance from bellman-ford to lovelace" << std::endl;
+			std::cin >> b;
+			std::cout << "Enter distance from lovelace to hopper" << std::endl;
+			std::cin >> c;
+			std::cout << "Enter distance from lovelace to knuth" << std::endl;
+			std::cin >> d;
+			std::cout << "Enter distance from knuth to cerf" << std::endl;
+			std::cin >> e;
+			std::cout << "Enter distance from knuth to hopper" << std::endl;
+			std::cin >> f;
+			std::cout << "Enter distance from hopper to cerf" << std::endl;
+			std::cin >> g;
+			std::cout << "Enter distance from cerf to baran" << std::endl;
+			std::cin >> h;
+			populate(test, arr, a, b, c, d, e, f, g, h);
+			break;
+		}
+	}
 	bFord(test, arr, ADJ_SIZE, INFO_SIZE, "bellman-ford");
 }
 
 
-void populate(adjList* test, info* arr) {
-
+void populate(adjList* test, info* arr, double a, double b, double c, double d, double e, double f, double g, double h) {
 	adjListNode
-		*B2 = new adjListNode("baran", 27.637),
-		*B1 = new adjListNode("lovelace", 141.632),
+		*B2 = new adjListNode("baran", a),
+		*B1 = new adjListNode("lovelace", b),
 		*B = new adjListNode("bellman-ford", MAX_INT);
 	B1->setNext(B2);
 	B->setNext(B1);
 
 
 	adjListNode
-		*L2 = new adjListNode("hopper", 142.675),
-		*L1 = new adjListNode("knuth", 125.654),
+		*L2 = new adjListNode("hopper", c),
+		*L1 = new adjListNode("knuth", d),
 		*L = new adjListNode("lovelace", MAX_INT);
 	L1->setNext(L2);
 	L->setNext(L1);
 
 
 	adjListNode
-		*K3 = new adjListNode("cerf", 196.626),
-		*K2 = new adjListNode("hopper", 105.593),
-		*K1 = new adjListNode("lovelace", 125.654),
+		*K3 = new adjListNode("cerf", e),
+		*K2 = new adjListNode("hopper", f),
+		*K1 = new adjListNode("lovelace", d),
 		*K = new adjListNode("knuth", MAX_INT);
 	K2->setNext(K3);
 	K1->setNext(K2);
@@ -95,9 +124,9 @@ void populate(adjList* test, info* arr) {
 
 
 	adjListNode
-		*H3 = new adjListNode("lovelace", 142.675),
-		*H2 = new adjListNode("knuth", 105.593),
-		*H1 = new adjListNode("cerf", 127.624),
+		*H3 = new adjListNode("lovelace", c),
+		*H2 = new adjListNode("knuth", f),
+		*H1 = new adjListNode("cerf", g),
 		*H = new adjListNode("hopper", MAX_INT);
 	H2->setNext(H3);
 	H1->setNext(H2);
@@ -105,9 +134,9 @@ void populate(adjList* test, info* arr) {
 
 
 	adjListNode
-		*C3 = new adjListNode("hopper", 127.624),
-		*C2 = new adjListNode("knuth", 196.626),
-		*C1 = new adjListNode("baran", 118.631),
+		*C3 = new adjListNode("hopper", g),
+		*C2 = new adjListNode("knuth", e),
+		*C1 = new adjListNode("baran", h),
 		*C = new adjListNode("cerf", MAX_INT);
 	C2->setNext(C3);
 	C1->setNext(C2);
@@ -115,7 +144,7 @@ void populate(adjList* test, info* arr) {
 
 
 	adjListNode
-		*X1 = new adjListNode("cerf", 118.631),
+		*X1 = new adjListNode("cerf", h),
 		*X = new adjListNode("baran", MAX_INT);
 	X->setNext(X1);
 	
@@ -135,7 +164,7 @@ void populate(adjList* test, info* arr) {
 	return;
 }
 
-int find(info tarr[], size_t size, std::string nodeName) {
+int find(info* tarr, size_t size, std::string nodeName) {
 	size_t h = 0;
 	while (tarr[h].getName() != nodeName)
 		h++;
@@ -171,7 +200,7 @@ void recurs(adjList*x, info* arr, int adjSize, int infoSize, std::string source)
 }
 
 void bFord(adjList*x, info* arr, int adjSize, int infoSize, std::string source) {
-	std::cout << "CN           B-Ford\t\tLovelace\tBaran\t\tKnuth\t\tHopper\t\tCerf" << std::endl;
+	std::cout << "Current Node  B-Ford\t\tLovelace\tBaran\t\tKnuth\t\tHopper\t\tCerf" << std::endl;
 	int i = 0;
 	while (arr[i].getName() != source && i < adjSize)	//finds source node and marks it was visited
 		i++;
@@ -208,11 +237,33 @@ void bFord(adjList*x, info* arr, int adjSize, int infoSize, std::string source) 
 		arr[pos].setVisit(true);
 		//cout << arr[pos].name << " " <<arr[pos].distance <<endl;
 	}
-	std::ofstream filer;
+	std::cout << "Enter a node name to get its path" << std::endl;
+	std::string location;
+	std::string arrloc[50];
+	while (std::cin >> location)
+	{
+		int arrp = 0;
+		int atmp = find(arr, 50, location);
+		if (atmp == -1) std::cout << "Not a valid location, try again" << std::endl;
+		else {
+			arrloc[arrp] = arr[atmp].getName();
+			arrp++;
+			while (arr[atmp].getParent() != "x") {
+				arrloc[arrp] = arr[atmp].getParent();
+				arrp++;
+				atmp = find(arr, 50, arr[atmp].getParent());
+			}
+			for (int q = arrp-1; q >= 0; q--)
+				std::cout << arrloc[q] << "->";
+			std::cout << std::endl;
+		}
+		std::cout << "Enter another location" << std::endl;
+	}
+	/*std::ofstream filer;
 	filer.open("temp.txt");
 	for (int k = 0; k < INFO_SIZE; k++)
 		filer << arr[k].getName() << " " <<arr[k].getParent() << " " << arr[k].getDist() << std::endl;
 
-	filer.close();
+	filer.close();*/
 
 }
